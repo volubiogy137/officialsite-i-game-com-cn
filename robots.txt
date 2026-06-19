@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://volubiogy137.github.io/officialsite-i-game-com-cn/sitemap.xml
