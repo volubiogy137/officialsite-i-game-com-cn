@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>再次遇见 · PG官网</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f6fafc;
+            color: #1a2e3b;
+            line-height: 1.7;
+            padding: 2rem 1.25rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-wrapper {
+            max-width: 820px;
+            width: 100%;
+        }
+
+        /* 网格卡片背景装饰（极淡） */
+        .page-wrapper::before {
+            content: '';
+            display: block;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 28px,
+                rgba(30, 160, 140, 0.08) 28px,
+                rgba(30, 160, 140, 0.08) 32px
+            );
+            margin-bottom: 2.5rem;
+            border-radius: 2px;
+        }
+
+        /* hero 区 — 安静的书桌感 */
+        .hero {
+            margin-bottom: 3rem;
+            padding: 0 0.25rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #0d3b4a;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero .meta-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #5b727c;
+            align-items: baseline;
+        }
+
+        .hero .meta-line span {
+            background: #e3f0ed;
+            padding: 0.15rem 0.75rem;
+            border-radius: 30px;
+            color: #1f6b5f;
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            color: #2e4b55;
+            margin-top: 1.2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #2f9e8a;
+        }
+
+        /* 正文卡片 */
+        .content-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+        }
+
+        .post-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 4px 16px rgba(20, 70, 60, 0.04), 0 1px 3px rgba(0, 20, 20, 0.02);
+            transition: box-shadow 0.2s, transform 0.1s;
+            border: 1px solid #eaf1ef;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 8px 28px rgba(25, 120, 100, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .post-card h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #0f404f;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-card h2 small {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #5f8580;
+            background: #eaf5f0;
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+        }
+
+        .post-card p {
+            margin-bottom: 1rem;
+            color: #1d3b46;
+        }
+
+        .post-card p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .inset-quote {
+            background: #eef7f3;
+            padding: 1.2rem 1.5rem;
+            border-radius: 16px;
+            margin: 1.5rem 0 1rem;
+            border-left: 5px solid #2b9b86;
+            font-style: normal;
+            color: #154a41;
+            font-size: 0.98rem;
+        }
+
+        .inset-quote strong {
+            color: #0b463b;
+        }
+
+        .visit-sentence {
+            margin-top: 2rem;
+            padding: 1.2rem 1.5rem;
+            border-radius: 20px;
+            background: #d9ede8;
+            color: #0b3e37;
+            font-size: 1.05rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .visit-sentence a {
+            color: #0b5e4e;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.15s, background 0.1s;
+            padding: 0 0.1rem;
+        }
+
+        .visit-sentence a:hover {
+            border-bottom-color: #1b7a68;
+            background: #c3e3db;
+        }
+
+        /* 引用块 / 提醒 */
+        .note-box {
+            background: #f5fbf9;
+            border-radius: 18px;
+            padding: 1.4rem 1.6rem;
+            margin: 1.8rem 0 0.8rem;
+            border: 1px solid #cfe3db;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .note-box .icon {
+            font-size: 1.4rem;
+            line-height: 1.4;
+            color: #1d7d6a;
+        }
+
+        .note-box .text {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .note-box .text p {
+            margin-bottom: 0.3rem;
+        }
+
+        .faq-mini {
+            margin-top: 2rem;
+        }
+
+        .faq-mini summary {
+            font-weight: 500;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            color: #0d4a3e;
+            border-bottom: 1px dashed #b3d3ca;
+            list-style: none;
+        }
+
+        .faq-mini summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-mini summary::before {
+            content: '▸ ';
+            color: #2f9e8a;
+            font-size: 1.1rem;
+        }
+
+        .faq-mini details[open] summary::before {
+            content: '▾ ';
+        }
+
+        .faq-mini details p {
+            margin: 0.5rem 0 1rem 1.2rem;
+            color: #1b4a3f;
+            font-size: 0.95rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #d3e4de;
+            margin: 2.5rem 0 1rem;
+            opacity: 0.5;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.88rem;
+            color: #57756c;
+            padding: 2rem 0 0.5rem;
+            border-top: 1px solid #dae7e1;
+            margin-top: 2rem;
+        }
+
+        .footer-note a {
+            color: #1b6b5b;
+            text-decoration: none;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* 移动端调整 */
+        @media (max-width: 520px) {
+            body {
+                padding: 1.25rem 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .post-card {
+                padding: 1.4rem 1.2rem 1.6rem;
+                border-radius: 18px;
+            }
+
+            .post-card h2 {
+                font-size: 1.3rem;
+            }
+
+            .visit-sentence {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+            }
+
+            .inset-quote {
+                padding: 1rem 1.2rem;
+            }
+
+            .note-box {
+                padding: 1rem 1.1rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .hero .meta-line {
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <header class="hero">
+        <h1>再次抵达·持续注目</h1>
+        <div class="meta-line">
+            <span>随记</span>
+            <span>收藏夹里的常客</span>
+        </div>
+        <p class="lead">
+            有些地方值得反复拐进去，不是因为它每次都有新东西，而是你知道它一直在那里，静而深。
+        </p>
+    </header>
+
+    <div class="content-grid">
+        <article class="post-card">
+            <h2>收藏，是一种安静的约定 <small>重读</small></h2>
+            <p>
+                浏览器书签栏里总有那么几个被点过很多次的地址。它们不张扬，也不催促，像一本翻旧了的诗集。工作间隙或者深夜查资料时，会突然想起「好像很久没去那个页面了」——于是打开，像推开一扇熟悉的门。对很多朋友来说，<a href="https://zh-official-pgsoft.com">PG官网</a>便扮演着这样的角色：不需要刻意想起，却总在需要时自然浮现。
+            </p>
+            <p>
+                再次访问的妙处在于，你带着上一次的记忆和期待，而页面则以不变的节奏迎接你。没有闪烁的弹窗，没有强行推送，只有清晰的信息层级和让人安心的色彩。这种体验本身，就是一种值得收藏的质感。
+            </p>
+        </article>
+
+        <article class="post-card">
+            <h2>持续关注，不需要太多理由 <small>习惯</small></h2>
+            <p>
+                信息流里充斥着「限时」「马上」，但真正能让人从容关注的，往往是那些不靠焦虑驱动的存在。持续关注一个事物，可以仅仅因为它稳定、诚实，并且每次都能提供一点点新视角。
+            </p>
+            <div class="inset-quote">
+                <strong>一个小提示：</strong> 如果你也习惯把中意的地方留在收藏夹里，不妨偶尔回头看看。那些安静等待你再次打开的页面，或许比想象中更值得停留。
+            </div>
+            <p>
+                我偏爱那种不需要注册、不需要登录就能直接阅读的网站。没有门槛的访问，本身就是一种尊重。而当你准备好了，书签里的那个名字便会带你回到熟悉的界面。
+            </p>
+        </article>
+
+        <article class="post-card">
+            <h2>场景·日常中的安静角落 <small>瞬间</small></h2>
+            <p>
+                下午三点，阳光斜照在桌角。打开笔记本，收藏夹下拉，点开那个早就归类好的链接。页面加载时甚至不需要等太久——它好像也在等你。你翻看更新，或者只是浏览一下首页的布局，心里觉得踏实。
+            </p>
+            <p>
+                不需要每次都有目的。有时候「去看一眼」本身就是目的。页面上的文字和结构像老朋友的口头禅，你知道下一段会是什么风格，却仍然愿意一行一行读下去。
+            </p>
+            <div class="note-box">
+                <span class="icon">☕</span>
+                <div class="text">
+                    <p>如果你也曾有过几次「突然想再去看看」的念头，却忘了地址——别担心，<a href="https://zh-official-pgsoft.com">PG官网</a>就在那里，和初次遇见时一样温和。</p>
+                </div>
+            </div>
+        </article>
+
+        <article class="post-card">
+            <h2>FAQ 摘要 · 关于再次访问 <small>常见疑问</small></h2>
+            <div class="faq-mini">
+                <details>
+                    <summary>总是记不住网址怎么办？</summary>
+                    <p>可以把 <strong>zh-official-pgsoft.com</strong> 加入书签或浏览器主页快捷方式。或者，在需要时搜索熟悉的名称即可。收藏夹是最好的记忆助手。</p>
+                </details>
+                <details>
+                    <summary>页面内容会频繁变动吗？</summary>
+                    <p>它的更新节奏温和且有章法，不会让你每次打开都感觉陌生。你可以放心收藏，保持自己的浏览节奏。</p>
+                </details>
+                <details>
+                    <summary>我该从哪里开始重新熟悉？</summary>
+                    <p>直接打开首页即可。不需要翻找，首页的导览和结构会自然带你进入状态。就像翻开一本书的扉页。</p>
+                </details>
+            </div>
+        </article>
+    </div>
+
+    <hr>
+
+    <div class="visit-sentence">
+        <span>如果你也愿意把它放进收藏夹，</span>
+        <a href="https://zh-official-pgsoft.com">PG官网</a>
+        <span>会一直在你触手可及的地方。</span>
+    </div>
+
+    <footer class="footer-note">
+        <p>— 不打扰的陪伴，胜过千言万语的推送 —</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">收藏 · 回访 · 如常</p>
+    </footer>
+</div>
+</body>
+</html>
