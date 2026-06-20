@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>彩经网 · 知识库入口 — 资料整理与信息索引</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(145deg, #fce9d6 0%, #f6d5b3 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.2rem;
+            line-height: 1.6;
+            color: #2b211c;
+        }
+
+        .page {
+            max-width: 1180px;
+            width: 100%;
+        }
+
+        /* 顶部说明条 */
+        .hero-note {
+            background: rgba(255, 245, 235, 0.75);
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            padding: 0.9rem 2rem;
+            margin-bottom: 2.5rem;
+            display: inline-block;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            color: #5e4032;
+            border: 1px solid rgba(230, 180, 140, 0.3);
+        }
+
+        .hero-note strong {
+            font-weight: 600;
+            color: #994d2e;
+        }
+
+        /* 主卡片 */
+        .card-intro {
+            background: white;
+            border-radius: 32px;
+            padding: 2.8rem 3rem;
+            box-shadow: 0 20px 40px -16px rgba(120, 70, 40, 0.25);
+            margin-bottom: 2.8rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .card-intro h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            color: #3d2b21;
+        }
+
+        .subhead {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem 1.2rem;
+            flex-wrap: wrap;
+            font-size: 1rem;
+            color: #6f5547;
+            border-bottom: 1px solid #eee3da;
+            padding-bottom: 1.2rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .subhead span {
+            background: #f7ede6;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #7a5a48;
+        }
+
+        .desc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem 2.8rem;
+            margin: 1.8rem 0 1.2rem;
+        }
+
+        .desc-grid p {
+            font-size: 0.98rem;
+            color: #3f3028;
+        }
+
+        .desc-grid p strong {
+            color: #a5522b;
+        }
+
+        .stat-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 2rem;
+            background: #f9f2eb;
+            padding: 1rem 1.5rem;
+            border-radius: 60px;
+            margin-top: 1.6rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-line em {
+            font-style: normal;
+            background: #dfc6b4;
+            color: #2f1e16;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 500;
+            margin: 0 0.2rem;
+        }
+
+        /* 卡片式链接目录 */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 2.6rem 0 1.2rem 0;
+        }
+
+        .section-label h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #3d2b21;
+            letter-spacing: 0.3px;
+        }
+
+        .section-label .badge {
+            background: #dbb8a0;
+            color: #2a1b13;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.75rem;
+            border-radius: 40px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .link-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.6rem 1.8rem;
+            box-shadow: 0 6px 18px rgba(140, 90, 60, 0.08);
+            transition: 0.2s ease;
+            border: 1px solid #f1e4da;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link-card:hover {
+            box-shadow: 0 12px 28px -10px rgba(110, 65, 35, 0.2);
+            border-color: #dbbca8;
+            transform: translateY(-2px);
+        }
+
+        .link-card .tag {
+            font-size: 0.7rem;
+            background: #efe0d4;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            align-self: flex-start;
+            margin-bottom: 0.8rem;
+            color: #5e3f30;
+            font-weight: 500;
+        }
+
+        .link-card h3 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: #302119;
+        }
+
+        .link-card p {
+            font-size: 0.9rem;
+            color: #5f4a3c;
+            margin: 0.2rem 0 0.6rem 0;
+        }
+
+        .link-card a, .link-card .fake-link {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            color: #a0502b;
+            text-decoration: none;
+            border-radius: 40px;
+            padding: 0.4rem 1rem 0.4rem 0;
+            transition: 0.15s;
+            font-size: 0.95rem;
+        }
+
+        .link-card a:hover {
+            background: #f8ede4;
+            padding-left: 0.8rem;
+            padding-right: 1.2rem;
+        }
+
+        .link-card .arrow {
+            transition: transform 0.15s;
+            font-size: 1.1rem;
+        }
+
+        .link-card a:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* 提示区 & FAQ 摘要 */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin: 3rem 0 2rem;
+        }
+
+        .tip-box {
+            background: white;
+            border-radius: 28px;
+            padding: 1.6rem 2rem;
+            box-shadow: 0 6px 16px rgba(90, 55, 30, 0.06);
+            border-left: 6px solid #d6a989;
+        }
+
+        .tip-box h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.6rem;
+            color: #4f3527;
+        }
+
+        .tip-box p, .tip-box li {
+            font-size: 0.92rem;
+            color: #47382f;
+        }
+
+        .tip-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tip-box li {
+            padding: 0.2rem 0;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .tip-box li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #b57956;
+            font-weight: bold;
+        }
+
+        .faq-mini {
+            background: white;
+            border-radius: 28px;
+            padding: 1.6rem 2rem;
+            box-shadow: 0 6px 16px rgba(90, 55, 30, 0.06);
+        }
+
+        .faq-mini h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #4f3527;
+        }
+
+        .faq-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #ebdbd0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item .q {
+            font-weight: 500;
+            font-size: 0.93rem;
+            color: #3f2e24;
+        }
+
+        .faq-item .a {
+            font-size: 0.88rem;
+            color: #6c5546;
+            margin-top: 0.1rem;
+        }
+
+        .faq-item .a a {
+            color: #a0502b;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 500;
+        }
+
+        .faq-item .a a:hover {
+            background: #f3e3d7;
+        }
+
+        /* 相关信息区 */
+        .related-area {
+            background: rgba(255, 245, 235, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 1.8rem 2.4rem;
+            margin: 2.6rem 0 1.8rem;
+            border: 1px solid #ecdacd;
+        }
+
+        .related-area h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            color: #3f2b20;
+        }
+
+        .related-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2.2rem;
+        }
+
+        .related-flex span {
+            background: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            color: #5f4234;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .related-flex a {
+            color: #8d5538;
+            text-decoration: none;
+            font-weight: 500;
+            background: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            transition: 0.1s;
+        }
+
+        .related-flex a:hover {
+            background: #e6cfbf;
+        }
+
+        .footer-note {
+            margin-top: 2.4rem;
+            font-size: 0.8rem;
+            color: #735f50;
+            text-align: center;
+            border-top: 1px solid #dfcdbe;
+            padding-top: 1.6rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 780px) {
+            .card-intro {
+                padding: 2rem 1.5rem;
+            }
+
+            .card-intro h1 {
+                font-size: 1.9rem;
+            }
+
+            .desc-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-note {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .stat-line {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+                border-radius: 30px;
+            }
+
+            .related-flex {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1.2rem 0.8rem;
+            }
+            .card-intro h1 {
+                font-size: 1.6rem;
+            }
+            .tip-box, .faq-mini {
+                padding: 1.2rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <!-- 顶部提示条 -->
+    <div class="hero-note">
+        📚 资料索引 · 结构化整理 · 信息节点 · <strong>知识库入口式</strong> 目录布局
+    </div>
+
+    <!-- 主卡片：介绍 + 数据说明 -->
+    <div class="card-intro">
+        <h1>彩经网 · 信息索引</h1>
+        <div class="subhead">
+            <span>📌 从资料整理出发</span>
+            <span>🗂️ 垂直内容聚合</span>
+            <span>🔍 知识库式呈现</span>
+        </div>
+
+        <div class="desc-grid">
+            <p><strong>内容定位</strong> —— <a href="https://site-cjw.com" style="color:#a0502b;font-weight:600;">彩经网</a> 围绕特定领域进行资料归集与体系化整理，提供稳定的信息索引节点。每个条目均经过筛选与分类，降低信息冗余，提升查阅效率。</p>
+            <p><strong>索引结构</strong> —— 以主题目录、说明区、提示区、FAQ 摘要、相关链接组合成多维入口。适合需要快速定位资料背景、验证信息来源的场景，兼顾深度浏览与横向比较。</p>
+        </div>
+
+        <div class="stat-line">
+            <span>📁 收录专题 <em>6+</em></span>
+            <span>📄 资料卡片 <em>30+</em></span>
+            <span>📎 外部关联 <em>12 节点</em></span>
+            <span>🔄 更新周期 <em>每月</em></span>
+        </div>
+    </div>
+
+    <!-- 目录卡片：链接卡片区（核心入口） -->
+    <div class="section-label">
+        <h2>主题目录</h2>
+        <div class="badge">资料卡片</div>
+    </div>
+
+    <div class="link-grid">
+        <div class="link-card">
+            <div class="tag">基础知识</div>
+            <h3>术语与概念</h3>
+            <p>涵盖核心定义、常用分类及演变脉络，便于建立全局认知。</p>
+            <a href="https://site-cjw.com">彩经网</a>
+        </div>
+        <div class="link-card">
+            <div class="tag">方法整理</div>
+            <h3>分析框架</h3>
+            <p>梳理不同分析路径、统计模型与逻辑工具，侧重可操作性。</p>
+            <a href="https://site-cjw.com">彩经网</a>
+        </div>
+        <div class="link-card">
+            <div class="tag">数据参考</div>
+            <h3>指标与记录</h3>
+            <p>结构化呈现常用指标、历史记录与对比数据，支持快速查阅。</p>
+            <a href="https://site-cjw.com">彩经网</a>
+        </div>
+        <div class="link-card">
+            <div class="tag">专题汇总</div>
+            <h3>场景索引</h3>
+            <p>按照使用场景组织内容，涵盖筛选、核对、复盘等模块。</p>
+            <a href="https://site-cjw.com">彩经网</a>
+        </div>
+    </div>
+
+    <!-- 提示区 + FAQ 摘要 -->
+    <div class="info-row">
+        <div class="tip-box">
+            <h3>💡 使用提示</h3>
+            <ul>
+                <li>建议从「基础知识」卡片切入，建立概念框架后再进入细分模块。</li>
+                <li>资料卡片中的外链均经过可用性校验，但内容变动以原出处为准。</li>
+                <li>如需要对比多个指标，可并行打开「数据参考」和「分析框架」卡片。</li>
+                <li>定期关注 <a href="https://site-cjw.com" style="color:#a0502b;text-decoration:underline;text-underline-offset:2px;">彩经网</a> 专题汇总区的更新日志，获取最新收录。</li>
+            </ul>
+        </div>
+        <div class="faq-mini">
+            <h3>❓ 常见问题摘要</h3>
+            <div class="faq-item">
+                <div class="q">资料索引的更新频率是？</div>
+                <div class="a">每月进行一次内容复审与卡片增补，具体日期见 <a href="https://site-cjw.com">彩经网</a> 更新记录。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">是否支持内容引用或转载？</div>
+                <div class="a">原始资料引用需注明出处；专题整理内容建议直接访问 <a href="https://site-cjw.com">彩经网</a> 获取最新版本。</div>
+            </div>
+            <div class="faq-item">
+                <div class="q">如何反馈错漏或建议？</div>
+                <div class="a">可通过站点相关页面提交信息，或参考「彩经网」页面底部的联系方式。</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 相关信息区 -->
+    <div class="related-area">
+        <h3>📎 相关信息与关联资源</h3>
+        <div class="related-flex">
+            <span>术语对照表</span>
+            <span>数据字段说明</span>
+            <span>版本归档</span>
+            <a href="https://site-cjw.com">彩经网</a>
+            <span>常见分类标签</span>
+        </div>
+    </div>
+
+    <!-- 底部陈述 -->
+    <div class="footer-note">
+        <span>基于资料整理与信息索引的知识库入口 · 内容保持克制与可溯源性</span>
+    </div>
+</div>
+</body>
+</html>
